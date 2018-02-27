@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import os
 from random import randint
 from math import sqrt
 
@@ -37,7 +36,6 @@ def divm(m, a, b):
 
 def expm(m, a, k):
     y = 1
-
     # Skip 0b at the start of bin numbers
     for x in bin(k)[2:]:
         y = (y * y) % m
@@ -47,30 +45,16 @@ def expm(m, a, k):
 
     return y
 
-def factors(x):
-    f_list = [1, x]
 
+def factors(x):
     for i in range(2, int(sqrt(x))+1):
         if x%i == 0:
-            f_list.append(i)
-            f_list.append(x // i)
+            return factors(i) + factors(x // i)
 
-    return f_list
+    return [x]
 
 
 def phi(n):
-    if n == 1:
-        return 1
-
-    n_factors = factors(n)[2:]
-
-    if len(n_factors) == 0:
-        return n-1
-
-    for x, y in zip(n_factors[::2], n_factors[1::2]):
-        if gcd(x, y) == 1:
-            return phi(x) * phi(y)
-
     cop_primes = 0
     for k in range(1, n + 1):
         if gcd(n, k) == 1:
@@ -92,7 +76,6 @@ def fermat(n, t):
 
 def prime(d):
     p = randint(1 << (d - 1), (1 << d)-1)
-
     while not fermat(p, 100):
         p = randint(1 << (d - 1), (1 << d)-1)
 
