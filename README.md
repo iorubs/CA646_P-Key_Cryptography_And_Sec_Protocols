@@ -3,13 +3,18 @@ Pratical work for the module CA646 P-Key Cryptography & Sec Protocols
 
 
 ### Run:
+#### RSA Run:
 ```bash
-docker run -it --rm -v "$PWD":/app -w /app python:3-alpine sh
+docker run -it --rm -v "$PWD":/app -w /app python:3-alpine python practicals.py
+```
 
-python
->>> from practicals import *
+#### Individual functions:
+```bash
+docker run -it --rm -v "$PWD":/app -w /app python:3-alpine
 
-# Then call any of the functions in practicals
+>>> from practicals import $FUNC_NAME
+
+# Then call the function.
 ```
 
 ### Practicals:

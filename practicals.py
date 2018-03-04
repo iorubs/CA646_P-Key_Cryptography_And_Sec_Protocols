@@ -4,18 +4,19 @@ import sys
 from math import sqrt
 from secrets import randbelow
 
+
 def gcd(a, b):
     if b == 0:
         return a
 
-    return gcd(b, a%b)
+    return gcd(b, a % b)
 
 
 def gcde(a, b):
     if b == 0:
         return (a, 1, 0)
 
-    g, x, y = gcde(b, a%b)
+    g, x, y = gcde(b, a % b)
     return (g, y, x - (a // b) * y)
 
 
@@ -46,7 +47,7 @@ def expm(m, a, k):
 
 def factors(x):
     for i in range(2, int(sqrt(x))+1):
-        if x%i == 0:
+        if x % i == 0:
             return factors(i) + factors(x // i)
 
     return [x]
@@ -71,15 +72,17 @@ def fermat(n, t):
 
     return True
 
+
 def randint(n, m):
     if n >= m:
         raise Exception('n must be smaller than m')
 
     rand = randbelow(m)
-    while rand < n or rand > m :
+    while rand < n or rand > m:
         rand = randbelow(m)
 
     return rand
+
 
 def prime(d):
     p = randint(1 << (d - 1), (1 << d))
@@ -91,7 +94,9 @@ def prime(d):
 
 
 def efactors(n):
-    f = lambda x: x**2 + 1
+    def f(x):
+        return x**2 + 1
+
     x = randint(0, n)
     y = x
     d = 1
@@ -157,6 +162,5 @@ def main():
 
     print('Decryption result: ', rsaDec(n, d, c))
 
-    print(bin(n))
 
 main()
