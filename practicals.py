@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from random import randint
 from math import sqrt
-
-print('Max system size:', sys.maxsize, 'bits.')
+from secrets import randbelow
 
 def gcd(a, b):
     if b == 0:
@@ -16,9 +14,9 @@ def gcd(a, b):
 def gcde(a, b):
     if b == 0:
         return (a, 1, 0)
-    else:
-        g, x, y = gcde(b, a%b)
-        return (g, y, x - (a // b) * y)
+
+    g, x, y = gcde(b, a%b)
+    return (g, y, x - (a // b) * y)
 
 
 def invm(m, a):
@@ -73,11 +71,21 @@ def fermat(n, t):
 
     return True
 
+def randint(n, m):
+    if n >= m:
+        raise Exception('n must be smaller than m')
+
+    rand = randbelow(m)
+    while rand < n or rand > m :
+        rand = randbelow(m)
+
+    return rand
 
 def prime(d):
-    p = randint(1 << (d - 1), (1 << d)-1)
+    p = randint(1 << (d - 1), (1 << d))
+
     while not fermat(p, 100):
-        p = randint(1 << (d - 1), (1 << d)-1)
+        p = randint(1 << (d - 1), (1 << d))
 
     return p
 
@@ -97,17 +105,17 @@ def efactors(n):
 
 def rsaKey(s):
     p = prime(s // 2)
-
     q = prime(s // 2)
+
     while q == p:
         q = prime(s // 2)
 
     n = p * q
     phi_n = (p-1)*(q-1)
 
-    e = randint(1, phi_n)
+    e = randint(2, phi_n)
     while gcd(e, phi_n) != 1:
-        e = randint(1, phi_n)
+        e = randint(2, phi_n)
 
     d = invm(phi_n, e)
 
@@ -128,3 +136,27 @@ def ecrack(n, e, c):
     d = invm((p-1)*(q-1), e)
 
     return rsaDec(n, d, c)
+
+
+def main():
+    # Increase recursion limit if needed.
+    sys.setrecursionlimit(2000)
+
+    print('Max word size:', sys.maxsize, 'bits.')
+    print('Recursion limit', sys.getrecursionlimit())
+
+    m = 27
+    s = 2000
+    print('Message:', m, 'Modulus length:', s)
+
+    n, e, d = rsaKey(s)
+    print('Modulus:', n, '\nExponent e:', e, '\nExponent d:', d)
+
+    c = rsaEnc(n, e, m)
+    print('Cyphertext:', c)
+
+    print('Decryption result: ', rsaDec(n, d, c))
+
+    print(bin(n))
+
+main()
