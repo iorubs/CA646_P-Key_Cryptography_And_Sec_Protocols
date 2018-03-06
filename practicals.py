@@ -61,9 +61,22 @@ def phi(n):
     return cop_primes
 
 
+def randint(n, m):
+    if n >= m:
+        raise Exception('n must be smaller than m')
+
+    rand = randbelow(m)
+    while rand < n:
+        rand = randbelow(m)
+
+    return rand
+
+
 def fermat(n, t):
-    if n < 3:
+    if n < 1:
         return False
+    elif n < 3:
+        return True
 
     for i in range(1, t):
         a = randint(2, n-1)
@@ -73,22 +86,11 @@ def fermat(n, t):
     return True
 
 
-def randint(n, m):
-    if n >= m:
-        raise Exception('n must be smaller than m')
-
-    rand = randbelow(m)
-    while rand < n or rand > m:
-        rand = randbelow(m)
-
-    return rand
-
-
 def prime(d):
-    p = randint(1 << (d - 1), (1 << d))
+    p = randint(1 << (d - 1), 1 << d)
 
     while not fermat(p, 100):
-        p = randint(1 << (d - 1), (1 << d))
+        p = randint(1 << (d - 1), 1 << d)
 
     return p
 
@@ -111,7 +113,6 @@ def efactors(n):
 def rsaKey(s):
     p = prime(s // 2)
     q = prime(s // 2)
-
     while q == p:
         q = prime(s // 2)
 
@@ -138,8 +139,7 @@ def rsaDec(n, d, c):
 def ecrack(n, e, c):
     p = efactors(n)
     q = n // p
-    d = invm((p-1)*(q-1), e)
-
+    d = invm((p - 1) * (q - 1), e)
     return rsaDec(n, d, c)
 
 
