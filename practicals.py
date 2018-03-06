@@ -46,7 +46,7 @@ def expm(m, a, k):
 
 
 def factors(x):
-    for i in range(2, int(sqrt(x))+1):
+    for i in range(2, int(sqrt(x)) + 1):
         if x % i == 0:
             return factors(i) + factors(x // i)
 
@@ -79,8 +79,8 @@ def fermat(n, t):
         return True
 
     for i in range(1, t):
-        a = randint(2, n-1)
-        if expm(n, a, n-1) != 1:
+        a = randint(2, n - 1)
+        if expm(n, a, n - 1) != 1:
             return False
 
     return True
@@ -88,7 +88,6 @@ def fermat(n, t):
 
 def prime(d):
     p = randint(1 << (d - 1), 1 << d)
-
     while not fermat(p, 100):
         p = randint(1 << (d - 1), 1 << d)
 
@@ -117,7 +116,7 @@ def rsaKey(s):
         q = prime(s // 2)
 
     n = p * q
-    phi_n = (p-1)*(q-1)
+    phi_n = (p - 1) * (q - 1)
 
     e = randint(2, phi_n)
     while gcd(e, phi_n) != 1:
