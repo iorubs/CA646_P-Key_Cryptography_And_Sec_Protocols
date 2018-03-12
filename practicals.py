@@ -73,12 +73,12 @@ def randint(n, m):
 
 
 def fermat(n, t):
-    if n < 1:
+    if n <= 1:
         return False
     elif n < 3:
         return True
 
-    for i in range(1, t):
+    for i in range(0, t):
         a = randint(2, n - 1)
         if expm(n, a, n - 1) != 1:
             return False
