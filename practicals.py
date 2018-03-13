@@ -54,11 +54,11 @@ def factors(x):
 
 
 def phi(n):
-    cop_primes = 0
+    coprimes = 0
     for k in range(1, n + 1):
         if gcd(n, k) == 1:
-            cop_primes += 1
-    return cop_primes
+            coprimes += 1
+    return coprimes
 
 
 def randint(n, m):
