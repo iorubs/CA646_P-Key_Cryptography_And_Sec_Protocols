@@ -162,4 +162,5 @@ def main():
     print('Decryption result: ', rsaDec(n, d, c))
 
 
-main()
+if 'run_rsa' in sys.argv:
+    main()
