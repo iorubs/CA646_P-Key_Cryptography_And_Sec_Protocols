@@ -1,7 +1,6 @@
 import sys
 from secrets import randbelow
 from rsa.practicals import expm, prime, fermat
-from math import sqrt
 
 
 def order(p, f, a):
@@ -31,35 +30,12 @@ def pair(d):
     return (p, findg(p, [2, q]))
 
 
+# find res s.t. (a ** res % p) == x
 def log(p, a, x):
-    s = 1
     for i in range(0, p):
-        s = (s * a) % p
-        if s == x:
-            return i + 1
+        if ((a ** i) % p) == x:
+            return i
     return -1
-
-
-def baby_steps_giant_steps(p, a, b, N=None):
-    if not N:
-        N = 1 + int(sqrt(p))
-
-    # Baby step table
-    baby_steps = {}
-    baby_step = 1
-    for r in range(N + 1):
-        baby_steps[baby_step] = r
-        baby_step = baby_step * a % p
-
-    # Giant steps
-    giant_stride = pow(a, (p-2) * N, p)
-    giant_step = b
-    for q in range(N + 1):
-        if giant_step in baby_steps:
-            return q * N + baby_steps[giant_step]
-        else:
-            giant_step = giant_step * giant_stride % p
-    return "No Match"
 
 
 def egKey(s):
@@ -84,14 +60,12 @@ def egEnc(p, a, y, m):
 
 
 def egDec(p, x, c1, c2):
-    return (c1 ** (p - 1 - x)) * c2 % p
+    return expm(p, c1, (p - 1 - x)) * c2 % p
 
 
 def main():
-    # print(log(p, g, 2))
-    # print(baby_steps_giant_steps(p, g, 2))
     m = 27
-    p, a, x, y = egKey(10)
+    p, a, x, y = egKey(100)
     print(f'message: {m}')
     c1, c2 = egEnc(p, a, y, m)
     print(f'encrypt: c1 {c1}, c2 {c2}')
