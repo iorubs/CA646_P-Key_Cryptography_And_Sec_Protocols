@@ -113,14 +113,14 @@ def egVerificationSha1(p, m, a, r, s, y):
 
 
 def main():
-    m = 27123213213123
+    m = 272134342342321
     p, a, x, y = egKey(10)
     r, s = egSignature(p, m, a, x)
-    print(egVerification(p, m, a, r, s, y))
-    # # rsa requires that m to be in the range 0..n−1
-    # k = len(bin(n - 1)[2:]) - len(bin(m)[2:]) - 1
-    # s = rsaAppSignature(n, d, m)
-    # print(rsaAppValidate(n, s, e, m))
+    print('ElGamal simple validation:', egVerification(p, m, a, r, s, y))
+
+    m = "Some random stuff"
+    r, s = egSignatureSha1(p, m, a, x)
+    print('ElGamal sha1 validation:', egVerificationSha1(p, m, a, r, s, y))
 
 
 if 'run_ds' in sys.argv:
