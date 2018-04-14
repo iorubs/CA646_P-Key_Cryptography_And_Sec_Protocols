@@ -14,7 +14,7 @@ def order(p, f, a):
 
 def findg(p, f):
     g = randbelow(p)
-    while g == 0 or order(p, f, g) != p - 1:
+    while order(p, f, g) != p - 1:
         g = randbelow(p)
 
     return g
@@ -33,7 +33,7 @@ def pair(d):
 # find res s.t. (a ** res % p) == x
 def log(p, a, x):
     for i in range(0, p):
-        if ((a ** i) % p) == x:
+        if expm(p, a, i) == x:
             return i
     return -1
 
@@ -70,7 +70,6 @@ def main():
     c1, c2 = egEnc(p, a, y, m)
     print(f'encrypt: c1 {c1}, c2 {c2}')
     print("decrypt: ", egDec(p, x, c1, c2))
-
 
 if 'run_eg' in sys.argv:
     main()

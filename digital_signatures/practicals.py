@@ -113,8 +113,8 @@ def egVerificationSha1(p, m, a, r, s, y):
 
 
 def main():
-    m = 272134342342321
-    p, a, x, y = egKey(10)
+    m = 20
+    p, a, x, y = egKey(4)
     r, s = egSignature(p, m, a, x)
     print('ElGamal simple validation:', egVerification(p, m, a, r, s, y))
 
