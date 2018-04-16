@@ -14,7 +14,7 @@ def order(p, f, a):
 
 def findg(p, f):
     g = randbelow(p)
-    while order(p, f, g) != p - 1:
+    while g < 1 or order(p, f, g) != p - 1:
         g = randbelow(p)
 
     return g
@@ -49,12 +49,15 @@ def egKey(s):
 
 
 def egEnc(p, a, y, m):
+    if m < 0 or m >= p:
+        raise Exception('m is outside range: 0 <= m < p')
+
     k = randbelow(p - 1)
     while k < 1:
         k = randbelow(p - 1)
 
     c1 = expm(p, a, k)
-    c2 = m * expm(p, y, k)
+    c2 = m * expm(p, y, k) % p
 
     return (c1, c2)
 
@@ -64,12 +67,13 @@ def egDec(p, x, c1, c2):
 
 
 def main():
-    m = 27
-    p, a, x, y = egKey(100)
+    m = 50
+    p, a, x, y = egKey(6)
     print(f'message: {m}')
     c1, c2 = egEnc(p, a, y, m)
     print(f'encrypt: c1 {c1}, c2 {c2}')
     print("decrypt: ", egDec(p, x, c1, c2))
+
 
 if 'run_eg' in sys.argv:
     main()

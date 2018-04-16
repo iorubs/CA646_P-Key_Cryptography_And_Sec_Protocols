@@ -64,16 +64,15 @@ def okWeak(x):
 
 
 def egSignature(p, m, a, x):
-    if m < 0 or m >= p - 1:
-        raise Exception('m is outside range: 0 <= m < p-1')
+    # if m < 0 or m >= p - 1:
+    #     raise Exception('m is outside range: 0 <= m < p-1')
 
     k = randbelow(p - 1)
     while k < 1 or gcd(k, p - 1) != 1:
         k = randbelow(p - 1)
 
     r = expm(p, a, k)
-    inv_k = invm(p - 1, k)
-    s = inv_k * (m - x * r) % (p - 1)
+    s = invm(p - 1, k) * (m - x * r) % (p - 1)
     return (r, s)
 
 
@@ -89,32 +88,18 @@ def egVerification(p, m, a, r, s, y):
 def egSignatureSha1(p, m, a, x):
     m = hashlib.sha1(str(m).encode('utf-8'))
     sha1 = int(m.hexdigest(), 16)
-
-    k = randbelow(p - 1)
-    while k < 1 or gcd(k, p - 1) != 1:
-        k = randbelow(p - 1)
-
-    r = expm(p, a, k)
-    inv_k = invm(p - 1, k)
-    s = inv_k * (sha1 - x * r) % (p - 1)
-    return (r, s)
+    return egSignature(p, sha1, a, x)
 
 
 def egVerificationSha1(p, m, a, r, s, y):
     m = hashlib.sha1(str(m).encode('utf-8'))
     sha1 = int(m.hexdigest(), 16)
-
-    if r < 1 or r > p - 1:
-        return False
-
-    v1 = (expm(p, y, r) * expm(p, r, s)) % p
-    v2 = expm(p, a, sha1)
-    return v1 == v2
+    return egVerification(p, sha1, a, r, s, y)
 
 
 def main():
-    m = 20
-    p, a, x, y = egKey(4)
+    m = 27
+    p, a, x, y = egKey(5)
     r, s = egSignature(p, m, a, x)
     print('ElGamal simple validation:', egVerification(p, m, a, r, s, y))
 
