@@ -86,15 +86,15 @@ def egVerification(p, m, a, r, s, y):
 
 
 def egSignatureSha1(p, m, a, x):
-    m = hashlib.sha1(str(m).encode('utf-8'))
-    sha1 = int(m.hexdigest(), 16)
-    return egSignature(p, sha1, a, x)
+    sha1 = hashlib.sha1(str(m).encode('utf-8'))
+    digest = int(sha1.hexdigest(), 16)
+    return egSignature(p, digest, a, x)
 
 
 def egVerificationSha1(p, m, a, r, s, y):
-    m = hashlib.sha1(str(m).encode('utf-8'))
-    sha1 = int(m.hexdigest(), 16)
-    return egVerification(p, sha1, a, r, s, y)
+    sha1 = hashlib.sha1(str(m).encode('utf-8'))
+    digest = int(sha1.hexdigest(), 16)
+    return egVerification(p, digest, a, r, s, y)
 
 
 def main():

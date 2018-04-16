@@ -30,12 +30,13 @@ def pair(d):
     return (p, findg(p, [2, q]))
 
 
-# find res s.t. (a ** res % p) == x
+# find i s.t. (a ** i % p) == x
 def log(p, a, x):
-    for i in range(0, p):
+    i = 0
+    while True:
         if expm(p, a, i) == x:
             return i
-    return -1
+        i += 1
 
 
 def egKey(s):
