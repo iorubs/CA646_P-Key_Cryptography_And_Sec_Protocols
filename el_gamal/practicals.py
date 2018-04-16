@@ -33,10 +33,10 @@ def pair(d):
 # find i s.t. (a ** i % p) == x
 def log(p, a, x):
     i = 0
-    while True:
-        if expm(p, a, i) == x:
-            return i
+    while expm(p, a, i) != x:
         i += 1
+
+    return i
 
 
 def egKey(s):
