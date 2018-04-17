@@ -21,10 +21,10 @@ def findg(p, f):
 
 
 def pair(d):
-    q = prime(d)
+    q = prime(d - 1)
     p = 2 * q + 1
-    while len(bin(q)[2:]) < d // 2 or not fermat(p, 100):
-        q = prime(d)
+    while len(bin(q)[2:]) < d - 1 or not fermat(p, 100):
+        q = prime(d - 1)
         p = 2 * q + 1
 
     return (p, findg(p, [2, q]))
@@ -69,7 +69,7 @@ def egDec(p, x, c1, c2):
 
 def main():
     m = 50
-    p, a, x, y = egKey(6)
+    p, a, x, y = egKey(100)
     print(f'message: {m}')
     c1, c2 = egEnc(p, a, y, m)
     print(f'encrypt: c1 {c1}, c2 {c2}')
