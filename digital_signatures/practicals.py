@@ -77,7 +77,7 @@ def egSignature(p, m, a, x):
 
 
 def egVerification(p, m, a, r, s, y):
-    if r < 1 or r > p - 1:
+    if r < 1 or r >= p:
         return False
 
     v1 = (expm(p, y, r) * expm(p, r, s)) % p
