@@ -1,6 +1,6 @@
 from math import sqrt
 
-
+# find i s.t. (a ** i % p) == x
 def baby_steps_giant_steps(p, a, b, N=None):
     if N is None:
         N = 1 + int(sqrt(p))
